@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Productos de {{ categoria.nombre }}</title>
+</head>
+
+<body class="container mt-5">
+    <div class="alert alert-info display-1 text-center">
+        <img src="{% static 'img/logo.jpg'%}" width="140">
+        Django SHOP
+    </div>
+
+    <div class="row">
+        {% for categoria in categorias %}
+        <div class="col">
+            <a href="{% url 'productos_por_categoria' categoria.id %}" class="btn btn-dark">{{ categoria.nombre }}</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h1>Productos de la categoría {{ categoria.nombre }}:</h1>
+
+    <div class="row">
+        {% for producto in productos %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/placeholder.jpg' %}{% endif %}"
+                    class="card-img-top" alt="{{ producto.nombre }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="card-text">Precio: $ {{ producto.precio }}</p>
+                    <p class="card-text">{{ producto.descripcion }}</p>
+                    <a href="{% url 'detalle_producto' producto.id %}">Ver detalles</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="/" class="btn btn-dark">Volver</a>
+    <hr>
+</body>
+
+</html>
